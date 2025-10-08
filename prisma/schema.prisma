@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model PowerPlant {
+  id                            Int     @id @default(autoincrement())
+  gppd_idnr                     String?
+  name                          String?
+  country                       String?
+  country_long                  String?
+  capacity_mw                   Float?
+  latitude                      Float?
+  longitude                     Float?
+  geolocation                   String?
+  primary_fuel                  String?
+  other_fuel1                   String?
+  other_fuel2                   String?
+  other_fuel3                   String?
+  estimated_generation_gwh_2013 Float?
+  estimated_generation_gwh_2014 Float?
+  estimated_generation_gwh_2015 Float?
+  estimated_generation_gwh_2016 Float?
+  estimated_generation_gwh_2017 Float?
+}
