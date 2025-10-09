@@ -10,7 +10,23 @@ describe('getAllPowerTypes', () => {
 
     expect(data).toEqual(
       expect.objectContaining({
-        powerTypes: expect.arrayContaining(['oil', 'gas', 'coal']),
+        powerTypes: expect.arrayContaining([
+          'Hydro',
+          'Solar',
+          'Gas',
+          'Other',
+          'Oil',
+          'Wind',
+          'Nuclear',
+          'Coal',
+          'Waste',
+          'Biomass',
+          'Wave and Tidal',
+          'Petcoke',
+          'Geothermal',
+          'Storage',
+          'Cogeneration',
+        ]),
       })
     );
   });

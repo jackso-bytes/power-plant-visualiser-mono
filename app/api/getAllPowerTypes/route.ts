@@ -12,5 +12,5 @@ export async function GET() {
 
   const powerTypesAsStringArray = powerTypes.map((p) => p.primary_fuel);
 
-  return Response.json({ powerTypesAsStringArray });
+  return Response.json({ powerTypes: powerTypesAsStringArray });
 }
