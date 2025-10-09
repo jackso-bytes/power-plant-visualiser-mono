@@ -1,14 +1,7 @@
 import { GET } from './route';
+import { setupGlobalResponse } from '../../testUtils/globalResponse';
 
-global.Response = {
-  json: (data: unknown): Response =>
-    ({
-      json: (): Promise<unknown> => Promise.resolve(data),
-      status: 200,
-      ok: true,
-      statusText: 'OK',
-    } as Response),
-} as typeof Response;
+setupGlobalResponse();
 
 describe('getPowerPlants tests', () => {
   it('should return correct list of power plants', async () => {
