@@ -3,14 +3,14 @@ import { setupGlobalResponse } from '../../testUtils/globalResponse';
 
 setupGlobalResponse();
 
-describe('getAllPowerTypes', () => {
+describe('getAllPrimaryFuels', () => {
   it('it should return correct power types', async () => {
     const res = await GET();
     const data = await res.json();
 
     expect(data).toEqual(
       expect.objectContaining({
-        powerTypes: expect.arrayContaining([
+        primaryFuels: expect.arrayContaining([
           'Hydro',
           'Solar',
           'Gas',
