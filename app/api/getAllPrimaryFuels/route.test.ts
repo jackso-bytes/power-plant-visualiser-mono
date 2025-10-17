@@ -1,7 +1,4 @@
 import { GET } from './route';
-import { setupGlobalResponse } from '../../testUtils/globalResponse';
-
-setupGlobalResponse();
 
 describe('getAllPrimaryFuels', () => {
   it('it should return correct power types', async () => {

@@ -1,7 +1,4 @@
 import { GET } from './route';
-import { setupGlobalResponse } from '@/app/testUtils/globalResponse';
-
-setupGlobalResponse();
 
 describe('Country endpoint tests', () => {
   it('it should return correct list of countries when called', async () => {
