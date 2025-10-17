@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '@/app/generated/prisma';
 
 export const buildSelect = (
   validFields: Prisma.PowerPlantScalarFieldEnum[] | undefined

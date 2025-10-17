@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '@/app/generated/prisma';
 
 type PowerPlantField = keyof typeof Prisma.PowerPlantScalarFieldEnum;
 
