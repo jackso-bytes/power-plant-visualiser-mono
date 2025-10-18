@@ -36,7 +36,7 @@ export async function GET(request: Request) {
   const validFields = fields ? getValidFields(fields) : undefined;
   const selectClause = buildSelect(validFields);
 
-  // if fields were requested but none valid, return explicit error to client instead of all fields
+  // if fields were requested but none are valid, return explicit error to client instead of all fields
   if (fields?.length && selectClause === undefined) {
     return Response.json(
       {
