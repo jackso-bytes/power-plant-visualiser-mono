@@ -1,28 +1,135 @@
-import { GET } from './route';
+import { testApiHandler } from 'next-test-api-route-handler';
+import * as appHandler from './route';
+import { PrismaClient } from '../../generated/prisma';
 
-global.Response = {
-  json: (data: unknown): Response =>
-    ({
-      json: (): Promise<unknown> => Promise.resolve(data),
-      status: 200,
-      ok: true,
-      statusText: 'OK',
-    } as Response),
-} as typeof Response;
+const prisma = new PrismaClient();
 
 describe('getPowerPlants tests', () => {
-  it('should return correct list of power plants', async () => {
-    const response = await GET();
-    const data = await response.json();
+  // unhappy paths for where query inputs
+  it('Should return a 400 and empty array for malicious inputs', async () => {
+    await testApiHandler({
+      appHandler,
+      url: '/api/getPowerPlants?country=<script>alert(1)</script>',
+      test: async ({ fetch }) => {
+        const response = await fetch({
+          method: 'GET',
+        });
 
-    expect(data.plants).toHaveLength(50);
-    expect(data.plants).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          country_long: 'United Kingdom',
-          primary_fuel: 'Wind',
-        }),
-      ])
-    );
+        expect(response.status).toBe(400);
+
+        const json = await response.json();
+        expect(json).toEqual({
+          error: 'Invalid query parameters',
+          issues: [
+            {
+              message: 'Invalid country',
+              path: 'country',
+            },
+          ],
+        });
+      },
+    });
+  });
+
+  it('Should return explicit 400 error when fields param has no valid fields', async () => {
+    await testApiHandler({
+      appHandler,
+      url: '/api/getPowerPlants?fields=invalidField,anotherInvalid',
+      test: async ({ fetch }) => {
+        const response = await fetch({ method: 'GET' });
+        expect(response.status).toBe(400);
+        const json = await response.json();
+        expect(json).toEqual({
+          error: 'No valid fields supplied',
+          requested: ['invalidField', 'anotherInvalid'],
+        });
+      },
+    });
+  });
+
+  it('Should return 500 if database query fails', async () => {
+    jest.resetModules();
+
+    jest.doMock('../../generated/prisma', () => {
+      return {
+        PrismaClient: jest.fn().mockImplementation(() => ({
+          powerPlant: {
+            findMany: jest.fn().mockRejectedValue(new Error('Database error')),
+            count: jest.fn(),
+          },
+        })),
+      };
+    });
+
+    // eslint-disable-next-line
+    const failingHandler = require('./route');
+
+    await testApiHandler({
+      appHandler: failingHandler,
+      test: async ({ fetch }) => {
+        const response = await fetch({ method: 'GET' });
+        expect(response.status).toBe(500);
+        const json = await response.json();
+        expect(json).toEqual({ error: 'Failed to fetch power plants' });
+      },
+    });
+
+    jest.dontMock('../../generated/prisma');
+  });
+
+  // Happy paths
+
+  it('Should return 200 and all power plants when no query params sent', async () => {
+    const count = await prisma.powerPlant.count();
+    await testApiHandler({
+      appHandler,
+      test: async ({ fetch }) => {
+        const response = await fetch({ method: 'GET' });
+        const json = await response.json();
+        expect(response.status).toBe(200);
+        expect(json.plants).toHaveLength(count);
+      },
+    });
+  });
+
+  it('Should return 200 with filtered power plants when country or primaryFuel sent', async () => {
+    const prisma = new PrismaClient();
+    const expectedPlants = await prisma.powerPlant.findMany({
+      where: {
+        country_long: 'United Kingdom',
+        primary_fuel: 'Solar',
+      },
+    });
+
+    await testApiHandler({
+      appHandler,
+      url: '/api/getPowerPlants?country=United%20Kingdom&primaryFuel=Solar',
+      test: async ({ fetch }) => {
+        const response = await fetch({ method: 'GET' });
+        expect(response.status).toBe(200);
+        const json = await response.json();
+
+        expect(json.plants).toEqual(expectedPlants);
+      },
+    });
+  });
+
+  it('Should return 200 with only selected fields when fields param sent', async () => {
+    const plants = await prisma.powerPlant.findMany({
+      select: {
+        name: true,
+      },
+    });
+
+    await testApiHandler({
+      appHandler,
+      url: 'api/getPowerPlants?fields=name',
+      test: async ({ fetch }) => {
+        const response = await fetch({ method: 'GET' });
+        expect(response.status).toBe(200);
+        const json = await response.json();
+        expect(json.plants).toEqual(plants);
+      },
+    });
   });
 });
