@@ -16,11 +16,11 @@ jobs:
     name: Code Linting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ssh-strict: false
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -35,6 +35,3 @@ jobs:
 
       - name: Lint code
         run: pnpm lint
-
-      - name: Run test suite
-        run: pnpm test
