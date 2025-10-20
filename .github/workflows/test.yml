@@ -20,10 +20,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+          run_install: true
+
       - name: Install & test
         run: |
           pnpm install --frozen-lockfile
