@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install & test
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm test
