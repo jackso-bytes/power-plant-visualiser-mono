@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
+    "@radix-ui/react-select": "^2.2.6",
     "next": "15.5.4",
     "next-test-api-route-handler": "^5.0.3",
     "prisma": "^6.16.3",
