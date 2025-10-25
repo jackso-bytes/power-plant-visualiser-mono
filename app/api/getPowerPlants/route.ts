@@ -26,8 +26,8 @@ export async function GET(request: Request) {
     );
   }
 
-  const country = url.searchParams.get('country');
-  const primaryFuel = url.searchParams.get('primaryFuel');
+  const country = url.searchParams.get('country_long');
+  const primaryFuel = url.searchParams.get('primary_fuel');
   // add additional filters here for where when required
   const fields = url.searchParams.get('fields');
 
