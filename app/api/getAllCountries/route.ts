@@ -10,5 +10,5 @@ export async function GET() {
     distinct: ['country_long'],
   });
   const countryNames = countries.map((c) => c.country_long);
-  return Response.json({ countries: countryNames });
+  return Response.json(countryNames);
 }
