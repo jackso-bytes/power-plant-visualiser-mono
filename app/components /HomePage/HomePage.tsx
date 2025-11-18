@@ -1,4 +1,5 @@
 import React from 'react';
+import EnergyShareView from '../EnergyShareView/EnergyShareView';
 
 export const HomePage = () => {
   return (
@@ -7,6 +8,7 @@ export const HomePage = () => {
         Welcome to Power Plant Visualizer
       </h1>
       <h2>Search to begin</h2>
+      <EnergyShareView />
     </>
   );
 };
