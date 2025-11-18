@@ -1,8 +1,10 @@
-import { AllCountriesResponse } from '@/app/shared/responseTypes';
+import { AllCountriesResponse } from '@/app/types/responseTypes';
 import { useQuery } from '@tanstack/react-query';
 
 const fetchCountries = async (): Promise<AllCountriesResponse> => {
-  const response = await fetch(`${process.env.BASE_URL}/api/getAllCountries`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/getAllCountries`
+  );
   const countries = await response.json();
   return countries;
 };
