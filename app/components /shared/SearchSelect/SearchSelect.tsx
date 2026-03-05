@@ -63,7 +63,9 @@ export const SearchSelect = ({
                   {option}
                   <Check
                     className={
-                      value === option ? 'ml-auto opacity-100' : 'ml-auto opacity-0'
+                      value === option
+                        ? 'ml-auto opacity-100'
+                        : 'ml-auto opacity-0'
                     }
                   />
                 </CommandItem>
