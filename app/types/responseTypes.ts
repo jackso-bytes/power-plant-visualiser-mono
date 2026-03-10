@@ -1,5 +1,7 @@
 export type AllCountriesResponse = string[];
 
+export type AllPrimaryFuelsResponse = (string | null)[];
+
 export type PowerPlant = {
   id: number;
   name: string | null;
