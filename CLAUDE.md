@@ -5,6 +5,7 @@
 - All new component and hook files must have a corresponding test file.
 - Tests live alongside the source file (e.g. `Foo.tsx` → `Foo.test.tsx`).
 - always use the tdd skill found here ~/.agents/skills/tdd
+- always run the associated test after editing to ensure no regression
 
 ## TypeScript
 
