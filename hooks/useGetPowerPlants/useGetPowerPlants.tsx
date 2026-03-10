@@ -5,7 +5,7 @@ const fetchPowerPlants = async (
   country?: string,
 ): Promise<GetPowerPlantsResponse> => {
   const params = new URLSearchParams({
-    fields: 'name,latitude,longitude,primary_fuel',
+    fields: 'id,name,latitude,longitude,primary_fuel',
   });
   if (country) params.append('country_long', country);
   const response = await fetch(

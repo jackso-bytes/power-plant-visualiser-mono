@@ -1,6 +1,7 @@
 export type AllCountriesResponse = string[];
 
 export type PowerPlant = {
+  id: number;
   name: string | null;
   latitude: number | null;
   longitude: number | null;

@@ -4,7 +4,8 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { PowerPlant } from '@/app/types/responseTypes';
 import { useEffect } from 'react';
-delete (L.Icon.Default.prototype as L.Icon.Default & { _getIconUrl?: unknown })._getIconUrl;
+delete (L.Icon.Default.prototype as L.Icon.Default & { _getIconUrl?: unknown })
+  ._getIconUrl;
 L.Icon.Default.mergeOptions({
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
@@ -48,7 +49,10 @@ const PowerPlantMap = ({ plants }: Props) => {
       />
       <FitBounds plants={plants} />
       {valid.map((plant) => (
-        <Marker key={plant.name} position={[plant.latitude, plant.longitude]}>
+        <Marker
+          key={plant.id}
+          position={[plant.latitude, plant.longitude]}
+        >
           <Popup>
             <strong>{plant.name}</strong>
             <br />
