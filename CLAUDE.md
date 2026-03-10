@@ -6,6 +6,11 @@
 - Tests live alongside the source file (e.g. `Foo.tsx` → `Foo.test.tsx`).
 - always use the tdd skill found here ~/.agents/skills/tdd
 
+## TypeScript
+
+- No `any` types. If a type is complex or unclear, ask before guessing.
+- No type errors or ESLint violations in submitted edits. Run `mcp__ide__getDiagnostics` before submitting.
+
 ## General
 
 - Package manager: `pnpm`
