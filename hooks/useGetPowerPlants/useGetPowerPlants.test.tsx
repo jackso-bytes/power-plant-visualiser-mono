@@ -9,17 +9,17 @@ import { GetPowerPlantsResponse } from '@/app/types/responseTypes';
 
 const mockedSuccess: GetPowerPlantsResponse = {
   plants: [
-    { name: 'Plant A', latitude: 51.5, longitude: -0.1, primary_fuel: 'Wind' },
-    { name: 'Plant B', latitude: 48.8, longitude: 2.3, primary_fuel: 'Solar' },
+    { id: 1, name: 'Plant A', latitude: 51.5, longitude: -0.1, primary_fuel: 'Wind' },
+    { id: 2, name: 'Plant B', latitude: 48.8, longitude: 2.3, primary_fuel: 'Solar' },
   ],
 };
 
 const makeQueryClient = () =>
   new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
-const renderHookWithClient = (country?: string) => {
+const renderHookWithClient = (country?: string, primaryFuel?: string) => {
   const queryClient = makeQueryClient();
-  return renderHook(() => useGetPowerPlants(country), {
+  return renderHook(() => useGetPowerPlants(country, primaryFuel), {
     wrapper: ({ children }) => (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     ),
@@ -73,5 +73,19 @@ describe('useGetPowerPlants', () => {
     await waitFor(() => expect(globalThis.fetch).toHaveBeenCalled());
     const url = (globalThis.fetch as jest.Mock).mock.calls[0][0] as string;
     expect(url).toContain('country_long=Germany');
+  });
+
+  it('includes primary_fuel param when provided', async () => {
+    renderHookWithClient('Germany', 'Wind');
+    await waitFor(() => expect(globalThis.fetch).toHaveBeenCalled());
+    const url = (globalThis.fetch as jest.Mock).mock.calls[0][0] as string;
+    expect(url).toContain('primary_fuel=Wind');
+  });
+
+  it('omits primary_fuel param when not provided', async () => {
+    renderHookWithClient('Germany');
+    await waitFor(() => expect(globalThis.fetch).toHaveBeenCalled());
+    const url = (globalThis.fetch as jest.Mock).mock.calls[0][0] as string;
+    expect(new URL(url).searchParams.has('primary_fuel')).toBe(false);
   });
 });
