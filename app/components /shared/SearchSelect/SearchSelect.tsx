@@ -1,4 +1,3 @@
-import { AllCountriesResponse } from '@/app/types/responseTypes';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +17,7 @@ import { useState } from 'react';
 
 export type SearchSelectProps = {
   title: string;
-  options: AllCountriesResponse;
+  options: string[];
   setSearchState: (value: string) => void;
 };
 
