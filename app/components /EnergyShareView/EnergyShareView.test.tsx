@@ -11,7 +11,7 @@ describe('EnergyShareView', () => {
   it('renders without crashing', () => {
     const { getByTestId } = render(
       <QueryClientProvider client={new QueryClient()}>
-        <EnergyShareView />
+        <EnergyShareView country='United Kingdom' />
       </QueryClientProvider>,
     );
     expect(getByTestId('energy-share-view')).toBeDefined();

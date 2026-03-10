@@ -19,11 +19,21 @@ jest.mock('../PowerPlantMapView/PowerPlantMapView', () => ({
   ),
 }));
 
-const mockUseGetAllCountries = useGetAllCountries as jest.MockedFunction<typeof useGetAllCountries>;
-const mockUseGetPowerPlants = useGetPowerPlants as jest.MockedFunction<typeof useGetPowerPlants>;
+const mockUseGetAllCountries = useGetAllCountries as jest.MockedFunction<
+  typeof useGetAllCountries
+>;
+const mockUseGetPowerPlants = useGetPowerPlants as jest.MockedFunction<
+  typeof useGetPowerPlants
+>;
 
 const plants: PowerPlant[] = [
-  { name: 'Plant A', latitude: 51.5, longitude: -0.1, primary_fuel: 'Wind' },
+  {
+    name: 'Plant A',
+    latitude: 51.5,
+    longitude: -0.1,
+    primary_fuel: 'Wind',
+    id: 1234,
+  },
 ];
 
 const renderHomePage = () =>
@@ -35,13 +45,23 @@ const renderHomePage = () =>
 
 describe('HomePage test suite', () => {
   beforeEach(() => {
-    mockUseGetAllCountries.mockReturnValue({ countries: ['Germany', 'France'], error: null, isLoading: false });
-    mockUseGetPowerPlants.mockReturnValue({ plants, error: null, isLoading: false });
+    mockUseGetAllCountries.mockReturnValue({
+      countries: ['Germany', 'France'],
+      error: null,
+      isLoading: false,
+    });
+    mockUseGetPowerPlants.mockReturnValue({
+      plants,
+      error: null,
+      isLoading: false,
+    });
   });
 
   it('renders with correct headings', () => {
     const { container } = renderHomePage();
-    expect(container.querySelector('h1')?.textContent).toBe('Welcome to Power Plant Visualizer');
+    expect(container.querySelector('h1')?.textContent).toBe(
+      'Welcome to Power Plant Visualizer',
+    );
     expect(container.querySelector('h2')?.textContent).toBe('Search to begin');
   });
 
