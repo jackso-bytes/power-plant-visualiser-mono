@@ -19,4 +19,5 @@
 
 ## Plans
 
-- At the end of each plan give me a list of unresolved questions. Make the questions extremely concise, sacrifice grammar for the sake of concision.
+- At the end of each plan give me a list of unresolved questions and ask them before asking for plan review. Make the questions extremely concise, sacrifice grammar for the sake of concision.
+- Step 0 of every accepted plan: create a GH issue from the plan using `gh issue create`.
