@@ -4,10 +4,10 @@ import useGetPowerPlants from '@/hooks/useGetPowerPlants/useGetPowerPlants';
 
 const PowerPlantMap = dynamic(() => import('./PowerPlantMap'), { ssr: false });
 
-type Props = { country: string };
+type Props = { country: string; primaryFuel?: string };
 
-const PowerPlantMapView = ({ country }: Props) => {
-  const { plants, error, isLoading } = useGetPowerPlants(country || undefined);
+const PowerPlantMapView = ({ country, primaryFuel }: Props) => {
+  const { plants, error, isLoading } = useGetPowerPlants(country || undefined, primaryFuel);
 
   if (!country) {
     return (

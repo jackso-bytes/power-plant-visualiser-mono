@@ -100,6 +100,16 @@ describe('PowerPlantMapView', () => {
     });
     render(<PowerPlantMapView country='Germany' />);
     expect(screen.getByTestId('power-plant-map-view')).toBeDefined();
-    expect(mockUseGetPowerPlants).toHaveBeenCalledWith('Germany');
+    expect(mockUseGetPowerPlants).toHaveBeenCalledWith('Germany', undefined);
+  });
+
+  it('passes primaryFuel to hook', () => {
+    mockUseGetPowerPlants.mockReturnValue({
+      plants,
+      error: null,
+      isLoading: false,
+    });
+    render(<PowerPlantMapView country='Germany' primaryFuel='Wind' />);
+    expect(mockUseGetPowerPlants).toHaveBeenCalledWith('Germany', 'Wind');
   });
 });
