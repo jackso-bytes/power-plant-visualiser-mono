@@ -9,7 +9,7 @@ describe('getPowerPlants tests', () => {
   it('Should return a 400 and empty array for malicious inputs', async () => {
     await testApiHandler({
       appHandler,
-      url: '/api/getPowerPlants?country=<script>alert(1)</script>',
+      url: '/api/getPowerPlants?country_long=<script>alert(1)</script>',
       test: async ({ fetch }) => {
         const response = await fetch({
           method: 'GET',
@@ -23,7 +23,7 @@ describe('getPowerPlants tests', () => {
           issues: [
             {
               message: 'Invalid country',
-              path: 'country',
+              path: 'country_long',
             },
           ],
         });
@@ -103,7 +103,7 @@ describe('getPowerPlants tests', () => {
 
     await testApiHandler({
       appHandler,
-      url: '/api/getPowerPlants?country=United%20Kingdom&primaryFuel=Solar',
+      url: '/api/getPowerPlants?country_long=United%20Kingdom&primary_fuel=Solar',
       test: async ({ fetch }) => {
         const response = await fetch({ method: 'GET' });
         expect(response.status).toBe(200);

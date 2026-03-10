@@ -6,12 +6,12 @@ const FIELDS_REGEX = /^[A-Za-z0-9_, ]{1,300}$/u;
 
 const querySchema = z
   .object({
-    country: z
+    country_long: z
       .string()
       .trim()
       .regex(COUNTRY_REGEX, 'Invalid country')
       .optional(),
-    primaryFuel: z
+    primary_fuel: z
       .string()
       .trim()
       .regex(PRIMARY_FUEL_REGEX, 'Invalid primary fuel')
