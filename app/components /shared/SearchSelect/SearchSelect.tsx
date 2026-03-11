@@ -37,13 +37,13 @@ export const SearchSelect = ({
           role='combobox'
           aria-label={title}
           aria-expanded={open}
-          className='w-[200px] justify-between'
+          className='w-full md:w-[40%] justify-between'
         >
           {value.length ? value : `${title}`}
           <ChevronsUpDown className='opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[200px] p-0'>
+      <PopoverContent className='w-full md:w-[40%] p-0'>
         <Command>
           <CommandInput placeholder={`Search ${title} ...`} className='h-9' />
           <CommandList>

@@ -22,11 +22,10 @@ export const HomePage = () => {
 
   return (
     <>
-      <h1 className='text-4xl font-bold text-center sm:text-left'>
+      <h1 className='text-4xl font-bold text-center sm:text-left w-full'>
         Welcome to Power Plant Visualizer
       </h1>
-      <h2>Search to begin</h2>
-      <div className='flex gap-2 items-center'>
+      <div className='flex gap-4 items-center flex-col w-full md:flex-row md:gap-2 md:w-[calc(100%-1rem)]'>
         <SearchSelect
           title='Select a country'
           options={countries ?? []}
@@ -37,12 +36,19 @@ export const HomePage = () => {
           options={(primaryFuels ?? []).filter((f): f is string => f !== null)}
           setSearchState={setPendingFuel}
         />
-        <Button onClick={handleSubmit} disabled={!pendingCountry}>
+        <Button
+          onClick={handleSubmit}
+          disabled={!pendingCountry}
+          className='w-full md:w-[20%]'
+        >
           Submit
         </Button>
       </div>
       <div className='isolate h-[60vh] w-full mt-2'>
-        <PowerPlantMapView country={appliedCountry} primaryFuel={appliedFuel || undefined} />
+        <PowerPlantMapView
+          country={appliedCountry}
+          primaryFuel={appliedFuel || undefined}
+        />
       </div>
     </>
   );
