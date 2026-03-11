@@ -24,17 +24,41 @@ jest.mock('leaflet', () => {
   };
 });
 jest.mock('react-leaflet', () => ({
-  MapContainer: ({ children }: any) => <div data-testid='map-container'>{children}</div>,
+  MapContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid='map-container'>{children}</div>
+  ),
   TileLayer: () => <div data-testid='tile-layer' />,
-  Marker: ({ children }: any) => <div data-testid='marker'>{children}</div>,
-  Popup: ({ children }: any) => <div data-testid='popup'>{children}</div>,
+  Marker: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid='marker'>{children}</div>
+  ),
+  Popup: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid='popup'>{children}</div>
+  ),
   useMap: () => ({ fitBounds: jest.fn() }),
 }));
 
 const plants: PowerPlant[] = [
-  { name: 'Plant A', latitude: 51.5, longitude: -0.1, primary_fuel: 'Wind' },
-  { name: 'Plant B', latitude: 48.8, longitude: 2.3, primary_fuel: 'Solar' },
-  { name: 'No Coords', latitude: null, longitude: null, primary_fuel: 'Gas' },
+  {
+    name: 'Plant A',
+    latitude: 51.5,
+    longitude: -0.1,
+    primary_fuel: 'Wind',
+    id: 1234,
+  },
+  {
+    name: 'Plant B',
+    latitude: 48.8,
+    longitude: 2.3,
+    primary_fuel: 'Solar',
+    id: 1234,
+  },
+  {
+    name: 'No Coords',
+    latitude: null,
+    longitude: null,
+    primary_fuel: 'Gas',
+    id: 1234,
+  },
 ];
 
 describe('PowerPlantMap', () => {
@@ -51,7 +75,13 @@ describe('PowerPlantMap', () => {
 
   it('skips plants with null lat/lng', () => {
     const nullPlants: PowerPlant[] = [
-      { name: 'No Coords', latitude: null, longitude: null, primary_fuel: 'Gas' },
+      {
+        name: 'No Coords',
+        latitude: null,
+        longitude: null,
+        primary_fuel: 'Gas',
+        id: 1234,
+      },
     ];
     render(<PowerPlantMap plants={nullPlants} />);
     expect(screen.queryAllByTestId('marker')).toHaveLength(0);
