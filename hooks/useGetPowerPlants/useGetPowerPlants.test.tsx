@@ -86,6 +86,7 @@ describe('useGetPowerPlants', () => {
     renderHookWithClient('Germany');
     await waitFor(() => expect(globalThis.fetch).toHaveBeenCalled());
     const url = (globalThis.fetch as jest.Mock).mock.calls[0][0] as string;
-    expect(new URL(url).searchParams.has('primary_fuel')).toBe(false);
+    const queryString = url.split('?')[1] ?? '';
+    expect(new URLSearchParams(queryString).has('primary_fuel')).toBe(false);
   });
 });
