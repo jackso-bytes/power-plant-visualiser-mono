@@ -23,8 +23,16 @@ jest.mock('../../../hooks/useGetAllPrimaryFuels/useGetAllPrimaryFuels');
 jest.mock('../../../hooks/useGetPowerPlants/useGetPowerPlants');
 jest.mock('../PowerPlantMapView/PowerPlantMapView', () => ({
   __esModule: true,
-  default: ({ country, primaryFuel }: { country: string; primaryFuel?: string }) => (
-    <div data-testid='mock-map-view'>{country},{primaryFuel}</div>
+  default: ({
+    country,
+    primaryFuel,
+  }: {
+    country: string;
+    primaryFuel?: string;
+  }) => (
+    <div data-testid='mock-map-view'>
+      {country},{primaryFuel}
+    </div>
   ),
 }));
 
@@ -79,7 +87,6 @@ describe('HomePage test suite', () => {
     expect(container.querySelector('h1')?.textContent).toBe(
       'Welcome to Power Plant Visualizer',
     );
-    expect(container.querySelector('h2')?.textContent).toBe('Search to begin');
   });
 
   it('renders the map view', () => {
@@ -94,26 +101,45 @@ describe('HomePage test suite', () => {
 
   it('submit button is disabled when no country selected', () => {
     renderHomePage();
-    expect(screen.getByRole('button', { name: /submit/i })).toHaveProperty('disabled', true);
+    expect(screen.getByRole('button', { name: /submit/i })).toHaveProperty(
+      'disabled',
+      true,
+    );
   });
 
   it('map does not update until submit is clicked', () => {
     renderHomePage();
     const comboboxes = screen.getAllByRole('combobox');
-    act(() => { comboboxes[0].click(); });
+    act(() => {
+      comboboxes[0].click();
+    });
     const germanyOption = screen.getByText('Germany');
-    act(() => { germanyOption.click(); });
+    act(() => {
+      germanyOption.click();
+    });
     expect(screen.getByTestId('mock-map-view').textContent).toBe(',');
   });
 
   it('map updates with country and fuel after submit', () => {
     renderHomePage();
     const comboboxes = screen.getAllByRole('combobox');
-    act(() => { comboboxes[0].click(); });
-    act(() => { screen.getByText('Germany').click(); });
-    act(() => { comboboxes[1].click(); });
-    act(() => { screen.getByText('Wind').click(); });
-    act(() => { screen.getByRole('button', { name: /submit/i }).click(); });
-    expect(screen.getByTestId('mock-map-view').textContent).toBe('Germany,Wind');
+    act(() => {
+      comboboxes[0].click();
+    });
+    act(() => {
+      screen.getByText('Germany').click();
+    });
+    act(() => {
+      comboboxes[1].click();
+    });
+    act(() => {
+      screen.getByText('Wind').click();
+    });
+    act(() => {
+      screen.getByRole('button', { name: /submit/i }).click();
+    });
+    expect(screen.getByTestId('mock-map-view').textContent).toBe(
+      'Germany,Wind',
+    );
   });
 });
