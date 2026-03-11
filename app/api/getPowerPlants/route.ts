@@ -52,7 +52,16 @@ export async function GET(request: Request) {
       where: whereClause,
       select: selectClause,
     });
-    return Response.json({ plants });
+    const seen = new Set<string>();
+    const deduped = plants.filter((p) => {
+      const key = JSON.stringify(
+        Object.fromEntries(Object.entries(p as Record<string, unknown>).filter(([k]) => k !== 'id'))
+      );
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    return Response.json({ plants: deduped });
   } catch (err) {
     console.error('[getPowerPlants] error', err);
     return Response.json(

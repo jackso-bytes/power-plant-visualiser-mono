@@ -1,5 +1,17 @@
 export type AllCountriesResponse = string[];
 
+export type AllPrimaryFuelsResponse = (string | null)[];
+
+export type PowerPlant = {
+  id: number;
+  name: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  primary_fuel: string | null;
+};
+
+export type GetPowerPlantsResponse = { plants: PowerPlant[] };
+
 export type EnergyShareResponse = {
   country: string;
   year: number;

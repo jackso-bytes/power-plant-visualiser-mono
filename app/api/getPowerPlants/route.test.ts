@@ -115,10 +115,13 @@ describe('getPowerPlants tests', () => {
   });
 
   it('Should return 200 with only selected fields when fields param sent', async () => {
-    const plants = await prisma.powerPlant.findMany({
-      select: {
-        name: true,
-      },
+    const raw = await prisma.powerPlant.findMany({ select: { name: true } });
+    const seen = new Set<string>();
+    const plants = raw.filter((p) => {
+      const key = JSON.stringify(p);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
     });
 
     await testApiHandler({
